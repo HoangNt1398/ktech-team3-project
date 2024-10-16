@@ -1,0 +1,83 @@
+spring:
+  profiles:
+    include: common
+    active: dev
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            redirect-uri: ${KAKAO_REDIRECT_URI}
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+logging:
+  level:
+    org.hibernate.SQL: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: ${JWT_ACCESS_TOKEN_EXPIRATION}
+  refresh-token-expiration-minutes: ${JWT_REFRESH_TOKEN_EXPIRATION}
+  access:
+    header: Authorization
+  refresh:
+    header: Refresh
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+      static: ${AWS_REGION}
+    s3:
+      bucket: ${AWS_BUCKET}
+    region:
+      static: ${AWS_REGION}
+    stack:
+      auto: false
+mail:
+  address:
+    admin: ${ADMIN_EMAIL}
+default:
+  profile:
+    image: ${DEFAULT_PROFILE_IMAGE}
+  thumbnail:
+    image: ${DEFAULT_THUMBNAIL_IMAGE}
