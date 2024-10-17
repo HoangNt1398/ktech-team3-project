@@ -93,7 +93,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
         cors.setAllowCredentials(true);
-        cors.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://thegong.site", "https://thegong.site", "https://seb43-main-025.vercel.app", "http://www.apithegong.com", "https://www.apithegong.com"));
+        cors.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://starslink.life"));
         cors.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
         cors.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
