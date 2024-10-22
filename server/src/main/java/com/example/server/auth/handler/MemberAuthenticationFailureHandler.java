@@ -1,9 +1,7 @@
 package com.example.server.auth.handler;
 
 import com.example.server.auth.utils.ErrorResponse;
-
-import com.google.gson.Gson;
-import jakarta.servlet.ServletException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -16,19 +14,23 @@ import java.io.IOException;
 
 @Slf4j
 public class MemberAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();  // Tái sử dụng ObjectMapper.
+
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException ae) throws IOException, ServletException {
-        //log.error("Login Failed 로그인 인증실패 : {}", ae.getMessage());
+    public void onAuthenticationFailure(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException ae) throws IOException {
+
+        log.error("Login failed: {}", ae.getMessage());  // Log lỗi để hỗ trợ debug.
         sendErrorResponse(response);
     }
 
-
     private void sendErrorResponse(HttpServletResponse response) throws IOException {
-        Gson gson = new Gson();
         ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
+        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));  // Chuyển đổi sang JSON bằng Jackson.
     }
 }
-
