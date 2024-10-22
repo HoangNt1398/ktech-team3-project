@@ -66,7 +66,7 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
 //가독성을 위한 구성
 //                .oauth2Login()
