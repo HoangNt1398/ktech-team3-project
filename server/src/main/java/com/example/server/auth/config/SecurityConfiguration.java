@@ -73,7 +73,7 @@ public class SecurityConfiguration {
 //                .userInfoEndpoint()
 //                .userService(oAuth2UserService)
 //                .and()
-//                .successHandler(oAuth2LoginSuccessHandler)
+//      g          .successHandler(oAuth2LoginSuccessHandler)
 //                .failureHandler(oAuth2LoginFailureHandler);
 
                 .oauth2Login(oauth2 -> oauth2
