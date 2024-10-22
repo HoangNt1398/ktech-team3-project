@@ -3,6 +3,7 @@ package com.example.server.auth.jwt;
 
 import com.example.server.member.entity.Member;
 import com.example.server.member.service.MemberService;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -26,9 +27,10 @@ import java.util.*;
 @Slf4j
 public class JwtTokenizer {
 
+    private final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+
     @Getter
-    @Value("${jwt.key}")
-    private String secretKey;
+    private final String secretKey = dotenv.get("JWT_SECRET_KEY");
 
     @Getter
     @Value("${jwt.access-token-expiration-minutes}")
