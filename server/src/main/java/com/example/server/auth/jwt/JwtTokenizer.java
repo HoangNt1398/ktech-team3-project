@@ -27,10 +27,9 @@ import java.util.*;
 @Slf4j
 public class JwtTokenizer {
 
-    private final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
-
     @Getter
-    private final String secretKey = dotenv.get("JWT_SECRET_KEY");
+    @Value("${jwt.key}")
+    private String secretKey;
 
     @Getter
     @Value("${jwt.access-token-expiration-minutes}")
