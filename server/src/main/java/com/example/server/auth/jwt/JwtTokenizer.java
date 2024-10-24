@@ -3,6 +3,7 @@ package com.example.server.auth.jwt;
 
 import com.example.server.member.entity.Member;
 import com.example.server.member.service.MemberService;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;

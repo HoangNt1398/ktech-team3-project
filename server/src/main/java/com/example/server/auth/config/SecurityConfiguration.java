@@ -66,14 +66,14 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
 //가독성을 위한 구성
 //                .oauth2Login()
 //                .userInfoEndpoint()
 //                .userService(oAuth2UserService)
 //                .and()
-//                .successHandler(oAuth2LoginSuccessHandler)
+//      g          .successHandler(oAuth2LoginSuccessHandler)
 //                .failureHandler(oAuth2LoginFailureHandler);
 
                 .oauth2Login(oauth2 -> oauth2
@@ -93,7 +93,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
         cors.setAllowCredentials(true);
-        cors.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://starslink.life"));
+        cors.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://starslink.life","http://127.0.0.1:5500"));
         cors.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
         cors.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
