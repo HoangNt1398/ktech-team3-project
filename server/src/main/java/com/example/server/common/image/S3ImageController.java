@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public class S3ImageController {
     private final RoomService roomService;
     private final MemberService memberService;
 
-    //Profile update
+    // Todo : 프로필 업로드
     @PostMapping("/profile/{member-id}")
     public ResponseEntity uploadProfile(@PathVariable("member-id") @Positive long memberId,
                                         @RequestParam("image") MultipartFile file,
@@ -52,7 +51,8 @@ public class S3ImageController {
     }
 
 
-    // Thumbnail update
+
+    // Todo : 썸네일 업로드
     @PostMapping("/thumbnail")
     public ResponseEntity uploadThumbnail(@RequestParam("image") MultipartFile file,
                                           Authentication authentication) {
@@ -71,7 +71,7 @@ public class S3ImageController {
 
 
 
-    // profile delete
+    // Todo : 프로필 삭제
     @DeleteMapping("/profile/{member-id}")
     public ResponseEntity deleteProfile(@PathVariable("member-id") long memberId,
                                         @RequestParam("image") String imageUrl,
@@ -98,7 +98,7 @@ public class S3ImageController {
 
 
 
-    // thumbnail delete
+    // Todo : 썸네일 삭제
     @DeleteMapping("/thumbnail/{room-id}")
     public ResponseEntity deleteThumbnail(@PathVariable("room-id") long roomId,
                                           @RequestParam("image") String imageUrl,
@@ -125,5 +125,3 @@ public class S3ImageController {
         }
     }
 }
-
-

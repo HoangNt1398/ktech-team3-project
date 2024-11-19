@@ -3,6 +3,7 @@ package com.example.server.common.image;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+
 import com.example.server.member.entity.Member;
 import com.example.server.member.repository.MemberRepository;
 import com.example.server.room.entity.Room;
@@ -18,10 +19,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class S3ImageService {
+
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
     private final AmazonS3 amazonS3Client;
@@ -30,10 +33,11 @@ public class S3ImageService {
     private String bucket;
 
     @Value("${default.profile.image}")
-    private String profile;
+    public String profile;
 
     @Value("${default.thumbnail.image}")
     private String thumbnail;
+
 
     public ResponseEntity<String> uploadP(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
@@ -41,9 +45,10 @@ public class S3ImageService {
         metadata.setContentType(file.getContentType());
         metadata.setContentLength(file.getSize());
 
-        amazonS3Client.putObject(bucket, "profile/" + fileName, file.getInputStream(), metadata);
-        return ResponseEntity.ok(amazonS3Client.getUrl(bucket, "profile" + fileName).toString());
+        amazonS3Client.putObject(bucket, "prifile/" + fileName, file.getInputStream(), metadata);
+        return ResponseEntity.ok(amazonS3Client.getUrl(bucket,"profile/"+fileName).toString());
     }
+
 
     public ResponseEntity<String> uploadT(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
@@ -52,8 +57,10 @@ public class S3ImageService {
         metadata.setContentLength(file.getSize());
 
         amazonS3Client.putObject(bucket, "thumbnail/" + fileName, file.getInputStream(), metadata);
-        return ResponseEntity.ok(amazonS3Client.getUrl(bucket, "thumbnail" + fileName).toString());
+        return ResponseEntity.ok(amazonS3Client.getUrl(bucket,"thumbnail/"+fileName).toString());
     }
+
+
 
     public String getImageKeyFromUrl(String imageUrl) {
         try {
@@ -61,21 +68,22 @@ public class S3ImageService {
             String path = url.getPath();
 
             if(path.startsWith("/profile/")) {
-                String profileUrl = path.substring(path.lastIndexOf("/") + 1);
+                String profileUrl = path.substring(path.lastIndexOf("/")+1); // 슬래시 이후 파일명 추출
                 return profileUrl;
             }
 
             else if(path.startsWith("/thumbnail/")) {
-                String thumbnailUrl = path.substring(path.lastIndexOf("/") +1);
+                String thumbnailUrl = path.substring(path.lastIndexOf("/")+1);
                 return thumbnailUrl;
             }
 
-            throw new IllegalArgumentException("잘못된 Image Url 이다.");
+            throw new IllegalArgumentException("잘못된 이미지 URL 입니다.");
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            throw new IllegalArgumentException("잘못된 Image Url 이다.");
+            throw new IllegalArgumentException("잘못된 이미지 URL 입니다.");
         }
     }
+
 
     public ResponseEntity<String> deleteProfile(Member member, String imageUrl) {
         String profileImage = getImageKeyFromUrl(imageUrl);
@@ -85,6 +93,7 @@ public class S3ImageService {
         return ResponseEntity.ok(profile);
     }
 
+
     public ResponseEntity<String> deleteThumbnail(Room room, String imageUrl) {
         String thumbnailImage = getImageKeyFromUrl(imageUrl);
         amazonS3Client.deleteObject(bucket + "/thumbnail", thumbnailImage);
@@ -93,8 +102,7 @@ public class S3ImageService {
         return ResponseEntity.ok(thumbnail);
     }
 
-    public String getDefaultProfileImage() {
+    public String getDefaultProfileImage(){
         return profile;
     }
-
 }

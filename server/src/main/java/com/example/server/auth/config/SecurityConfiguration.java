@@ -77,11 +77,11 @@ public class SecurityConfiguration {
 //                .failureHandler(oAuth2LoginFailureHandler);
 
                 .oauth2Login(oauth2 -> oauth2
-                    .successHandler(oAuth2LoginSuccessHandler)
-                    .failureHandler(oAuth2LoginFailureHandler)
-                    .userInfoEndpoint(userInfoEndpointConfig ->
-                            userInfoEndpointConfig.userService(oAuth2UserService)
-                    )
+                        .successHandler(oAuth2LoginSuccessHandler)
+                        .failureHandler(oAuth2LoginFailureHandler)
+                        .userInfoEndpoint(userInfoEndpointConfig ->
+                                userInfoEndpointConfig.userService(oAuth2UserService)
+                        )
                 );
 
         return http.build();
@@ -123,4 +123,3 @@ public class SecurityConfiguration {
         }
     }
 }
-
